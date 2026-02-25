@@ -1,34 +1,262 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <title>2026 每日一题</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>2026 每日一题 · 主页</title>
+  <style>
+    /* 全局样式 */
+    body {
+      font-family: "Microsoft YaHei", sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
+      color: #333;
+    }
+
+    /* 导航栏 */
+    nav {
+      background: #444;
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: bold;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* 内容区 */
+    .container {
+      max-width: 1000px;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+    section {
+      margin-bottom: 40px;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #2c3e50;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 10px;
+    }
+
+    /* 赛程海报背景示例 */
+    .season-banner {
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      border-radius: 8px;
+      margin: 15px 0;
+    }
+
+    /* 表格样式 */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background: #f1f1f1;
+    }
+    tr:hover {
+      background: #fafafa;
+    }
+
+    /* 隐藏成就样式 */
+    .hidden-achievement {
+      opacity: 0.7;
+      font-style: italic;
+    }
+  </style>
 </head>
 <body>
-  <h1>🏆 2026 每日一题 · 赛季排行榜</h1>
-  <div id="leaderboard"></div>
 
-  <script>
-    // 从 CSV 加载数据并渲染表格
-    fetch('data/scores.csv')
-      .then(response => response.text())
-      .then(csv => {
-        const lines = csv.trim().split('\n');
-        const headers = lines[0].split(',');
-        let html = '<table><thead><tr>';
-        headers.forEach(h => html += `<th>${h}</th>`);
-        html += '</tr></thead><tbody>';
+  <!-- 🌐 导航栏 -->
+  <nav>
+    <a href="#schedule">赛程介绍</a>
+    <a href="#rankings">赛季排行</a>
+    <a href="#ranks">段位介绍</a>
+    <a href="#achievements">成就一览</a>
+    <a href="#difficulty">难度机制</a>
+    <a href="#hall-of-fame">赛季名人堂</a>
+    <a href="#daily-log">每日作答记录</a>
+  </nav>
 
-        for (let i = 1; i < lines.length; i++) {
-          const row = lines[i].split(',');
-          html += '<tr>';
-          row.forEach(cell => html += `<td>${cell}</td>`);
-          html += '</tr>';
+  <div class="container">
+
+    <!-- 🗓️ 赛程介绍 -->
+    <section id="schedule">
+      <h2>📅 赛程介绍</h2>
+      
+      <!-- S1 示例 -->
+      <div class="season-banner" style="background-image: url('images/s1-poster.jpg');">
+        <h3>S1 新春狂欢赛</h3>
+        <p>1月9日 – 2月22日 | 春节、元宵、小年</p>
+      </div>
+
+      <!-- S2 示例（可替换为“尚未开始”） -->
+      <div class="season-banner" style="background-color: #f0f0f0; color: #666;">
+        <h3>S2 启智迎春赛</h3>
+        <p>2月27日 – 4月12日 | 植树节、龙头节、圆周率日</p>
+      </div>
+
+      <!-- 后续赛季可继续添加 -->
+    </section>
+
+    <!-- 🏆 赛季排行 -->
+    <section id="rankings">
+      <h2>🏆 赛季排行</h2>
+      
+      <h3>S1 排行榜（已结束）</h3>
+      <div id="s1-ranking">
+        <!-- 数据将从 data/s1-rankings.csv 加载 -->
+        <p>加载中...</p>
+      </div>
+
+      <h3>S2 排行榜（进行中）</h3>
+      <div id="s2-ranking">
+        <p>赛季尚未开始</p>
+      </div>
+
+      <script>
+        // 自动加载 S1 排行榜（需先创建 data/s1-rankings.csv）
+        fetch('data/s1-rankings.csv')
+          .then(response => response.ok ? response.text() : null)
+          .then(csv => {
+            if (!csv) return;
+            const lines = csv.trim().split('\n');
+            let html = '<table><thead><tr>';
+            const headers = lines[0].split(',');
+            headers.forEach(h => html += `<th>${h}</th>`);
+            html += '</tr></thead><tbody>';
+
+            for (let i = 1; i < lines.length; i++) {
+              const row = lines[i].split(',');
+              html += '<tr>';
+              row.forEach(cell => html += `<td>${cell}</td>`);
+              html += '</tr>';
+            }
+            html += '</tbody></table>';
+            document.getElementById('s1-ranking').innerHTML = html;
+          })
+          .catch(() => {
+            document.getElementById('s1-ranking').innerHTML = '<p>暂无数据</p>';
+          });
+
+        // S2 开启判断（2026年2月27日后显示排行榜）
+        if (new Date() >= new Date("2026-02-27")) {
+          document.getElementById('s2-ranking').innerHTML = '<p>排行榜加载中...</p>';
+          // 可在此处添加 S2 CSV 加载逻辑
         }
-        html += '</tbody></table>';
-        document.getElementById('leaderboard').innerHTML = html;
-      });
-  </script>
+      </script>
+    </section>
+
+    <!-- 🧩 段位介绍 -->
+    <section id="ranks">
+      <h2>🎯 段位系统</h2>
+      <table>
+        <tr><th>等级</th><th>段位</th><th>分数范围</th><th>徽章</th><th>保护</th><th>扣分倍率</th><th>继承分</th></tr>
+        <tr><td>8</td><td>传奇</td><td>≥100</td><td>★</td><td>无</td><td>2</td><td>60</td></tr>
+        <tr><td>7</td><td>大师</td><td>[70,100)</td><td>⭐</td><td>无</td><td>1</td><td>45</td></tr>
+        <tr><td>6</td><td>精英</td><td>[50,70)</td><td>💎</td><td>无</td><td>0.5</td><td>30</td></tr>
+        <tr><td>5</td><td>进阶</td><td>[35,50)</td><td>🔷</td><td>有</td><td>0</td><td>20</td></tr>
+        <tr><td>4</td><td>熟练</td><td>[20,35)</td><td>🟢</td><td>有</td><td>0</td><td>12</td></tr>
+        <tr><td>3</td><td>新手</td><td>[10,20)</td><td>🟠</td><td>有</td><td>0</td><td>6</td></tr>
+        <tr><td>2</td><td>入门</td><td>[5,10)</td><td>⚫</td><td>有</td><td>0</td><td>3</td></tr>
+        <tr><td>1</td><td>见习</td><td>[0,5)</td><td>⬜</td><td>有</td><td>0</td><td>0</td></tr>
+      </table>
+    </section>
+
+    <!-- 🏅 成就一览 -->
+    <section id="achievements">
+      <h2>🏅 成就一览</h2>
+      <div id="achievement-list">
+        <p>加载中...</p>
+      </div>
+
+      <script>
+        // 示例成就数据（你可替换为 JSON 文件）
+        const achievements = [
+          { name: "初露锋芒", condition: "累计答对10题", hidden: false, achieved_by: ["小贝克"] },
+          { name: "七曜连珠", condition: "7个赛季均进入名人堂", hidden: true, achieved_by: [] }
+        ];
+
+        let html = '';
+        achievements.forEach(ach => {
+          if (ach.hidden) {
+            html += `<div class="hidden-achievement">❓ - ${ach.condition}</div>`;
+          } else {
+            html += `<div><strong>${ach.name}</strong> - ${ach.condition}</div>`;
+          }
+        });
+        document.getElementById('achievement-list').innerHTML = html;
+      </script>
+    </section>
+
+    <!-- 🔍 难度机制 -->
+    <section id="difficulty">
+      <h2>📐 难度机制</h2>
+      <table>
+        <tr><th>难度</th><th>扣分</th><th>说明</th></tr>
+        <tr><td>1</td><td>0</td><td>基础题，适合热身</td></tr>
+        <tr><td>2</td><td>0</td><td>稍难，需一定知识储备</td></tr>
+        <tr><td>3</td><td>1</td><td>中等难度，考验理解力</td></tr>
+        <tr><td>4</td><td>1</td><td>高难题，常作为压轴题</td></tr>
+        <tr><td>5</td><td>2</td><td>极难题，仅少数人能答对</td></tr>
+        <tr><td>6</td><td>3</td><td>极限挑战，错误代价巨大</td></tr>
+      </table>
+    </section>
+
+    <!-- 🏆 名人堂 -->
+    <section id="hall-of-fame">
+      <h2>🌟 赛季名人堂</h2>
+      <table>
+        <tr><th>赛季</th><th>冠军</th><th>分数</th><th>段位</th></tr>
+        <tr><td>S1</td><td>小贝克</td><td>77</td><td>大师</td></tr>
+        <tr><td>S2</td><td>待定</td><td>-</td><td>-</td></tr>
+      </table>
+    </section>
+
+    <!-- 📝 每日作答记录 -->
+    <section id="daily-log">
+      <h2>📝 每日作答记录</h2>
+      <div id="today-log">
+        <p>2026年3月14日 · 圆周率日</p>
+        <p><strong>题目：</strong>祖冲之将π精确到小数点后几位？</p>
+        <p><strong>答案：</strong>C) 7位</p>
+        <p><strong>难度：</strong>3+</p>
+        <table>
+          <tr><th>用户名</th><th>是否答对</th><th>评论</th></tr>
+          <tr><td>爱丽丝</td><td>✅</td><td>“祖冲之真是天才！”</td></tr>
+          <tr><td>罗西</td><td>✅</td><td>“割圆术太厉害了。”</td></tr>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
 </body>
 </html>
