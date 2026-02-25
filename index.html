@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>2026 每日一题</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>🏆 2026 每日一题 · 赛季排行榜</h1>
+  <div id="leaderboard"></div>
+
+  <script>
+    // 从 CSV 加载数据并渲染表格
+    fetch('data/scores.csv')
+      .then(response => response.text())
+      .then(csv => {
+        const lines = csv.trim().split('\n');
+        const headers = lines[0].split(',');
+        let html = '<table><thead><tr>';
+        headers.forEach(h => html += `<th>${h}</th>`);
+        html += '</tr></thead><tbody>';
+
+        for (let i = 1; i < lines.length; i++) {
+          const row = lines[i].split(',');
+          html += '<tr>';
+          row.forEach(cell => html += `<td>${cell}</td>`);
+          html += '</tr>';
+        }
+        html += '</tbody></table>';
+        document.getElementById('leaderboard').innerHTML = html;
+      });
+  </script>
+</body>
+</html>
