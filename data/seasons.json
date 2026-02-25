@@ -1,0 +1,9 @@
+[
+  {"name": "S1", "theme": "新春狂欢季", "color": "#D42323"},
+  {"name": "S2", "theme": "启智迎春季", "color": "#5E9C7B"},
+  {"name": "S3", "theme": "青春飞扬季", "color": "#FF7043"},
+  {"name": "S4", "theme": "赤帜荣光季", "color": "#E53935"},
+  {"name": "S5", "theme": "星河铭记日", "color": "#5C4A8C"},
+  {"name": "S6", "theme": "家国同庆赛", "color": "#FFA726"},
+  {"name": "S7", "theme": "冬日温暖季", "color": "#5D4037"}
+]
