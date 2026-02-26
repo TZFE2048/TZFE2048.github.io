@@ -203,41 +203,38 @@
         <p>加载中...</p>
       </div>
 
-      <script>
-    fetch('/data/achievements.json')
-      .then(response => response.json())
-      .then(data => {
-        let html = '';
+<script>
+  fetch('/data/achievements.json')  // 注意前面的斜杠！
+    .then(response => response.json())
+    .then(data => {
+      let html = '';
 
-        // 渲染可见成就
-        data.visible.forEach(ach => {
-          html += `
-            <div style="margin: 10px 0; padding: 10px; border-left: 4px solid #4CAF50;">
-              <strong>${ach.icon} ${ach.name}</strong><br>
-              ${ach.description}
-              ${ach.achieved_by.length > 0 ? `<br><small>🏆 ${ach.achieved_by.join(', ')}</small>` : ''}
-            </div>
-          `;
-        });
-
-        // 渲染隐藏成就（显示为问号）
-        data.hidden.forEach(ach => {
-          html += `
-            <div class="hidden-achievement" style="margin: 10px 0; padding: 10px; opacity: 0.6; font-style: italic;">
-              ❓ ???<br>
-              （达成后揭晓）
-            </div>
-          `;
-        });
-
-        document.getElementById('achievement-list').innerHTML = html;
-      })
-      .catch(err => {
-        document.getElementById('achievement-list').innerHTML = '成就数据加载失败';
-        console.error(err);
+      data.visible.forEach(ach => {
+        html += `
+          <div style="margin: 10px 0; padding: 10px; border-left: 4px solid #4CAF50;">
+            <strong>${ach.icon} ${ach.name}</strong><br>
+            ${ach.description}
+            ${ach.achieved_by.length > 0 ? `<br><small>🏆 ${ach.achieved_by.join(', ')}</small>` : ''}
+          </div>
+        `;
       });
-  </script>
-</section>
+
+      data.hidden.forEach(ach => {
+        html += `
+          <div class="hidden-achievement" style="margin: 10px 0; padding: 10px; opacity: 0.6; font-style: italic;">
+            ❓ ???<br>
+            （达成后揭晓）
+          </div>
+        `;
+      });
+
+      document.getElementById('achievement-list').innerHTML = html;
+    })
+    .catch(err => {
+      console.error("加载失败:", err);
+      document.getElementById('achievement-list').innerHTML = '成就数据加载失败';
+    });
+</script>
     
     <!-- 🔍 难度机制 -->
     <section id="difficulty">
