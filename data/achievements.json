@@ -106,7 +106,7 @@
     },
     {
       "id": "legendary_achievement",
-      "name": "宗师印记",
+      "name": "传奇印记",
       "description": "累计3次达到「传奇」段位",
       "icon": "⭐",
       "condition": "reached Legend rank 3 times",
