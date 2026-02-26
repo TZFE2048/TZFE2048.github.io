@@ -1,0 +1,66 @@
+<!-- rankings.html -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>赛季排行 - 2026 每日一题</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <nav>
+    <a href="/schedule.html">赛程介绍</a>
+    <a href="/rankings.html">赛季排行</a>
+    <a href="/ranks.html">段位介绍</a>
+    <a href="/achievements.html">成就一览</a>
+    <a href="/difficulty.html">难度机制</a>
+    <a href="/hall-of-fame.html">赛季名人堂</a>
+    <a href="/daily-log.html">每日作答记录</a>
+  </nav>
+
+  <div class="container">
+    <h2>🏆 赛季排行</h2>
+      
+      <h3>S1 新春狂欢季（已结束）</h3>
+      <div id="s1-ranking">
+        <!-- 数据将从 data/s1-rankings.csv 加载 -->
+        <p>加载中...</p>
+      </div>
+
+      <h3>S2 启智迎春季（未开始）</h3>
+      <div id="s2-ranking">
+        <p>赛季尚未开始</p>
+      </div>
+
+      <script>
+        // 自动加载 S1 排行榜（需先创建 data/s1-rankings.csv）
+        fetch('data/s1-rankings.csv')
+          .then(response => response.ok ? response.text() : null)
+          .then(csv => {
+            if (!csv) return;
+            const lines = csv.trim().split('\n');
+            let html = '<table><thead><tr>';
+            const headers = lines[0].split(',');
+            headers.forEach(h => html += `<th>${h}</th>`);
+            html += '</tr></thead><tbody>';
+
+            for (let i = 1; i < lines.length; i++) {
+              const row = lines[i].split(',');
+              html += '<tr>';
+              row.forEach(cell => html += `<td>${cell}</td>`);
+              html += '</tr>';
+            }
+            html += '</tbody></table>';
+            document.getElementById('s1-ranking').innerHTML = html;
+          })
+          .catch(() => {
+            document.getElementById('s1-ranking').innerHTML = '<p>暂无数据</p>';
+          });
+
+        // S2 开启判断（2026年2月27日后显示排行榜）
+        if (new Date() >= new Date("2026-02-27")) {
+          document.getElementById('s2-ranking').innerHTML = '<p>排行榜加载中...</p>';
+          // 可在此处添加 S2 CSV 加载逻辑
+        }
+      </script>
+    </section>
