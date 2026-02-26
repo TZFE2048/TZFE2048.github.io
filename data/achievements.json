@@ -6,7 +6,7 @@
       "description": "累计答对 10 题",
       "icon": "🎯",
       "condition": "total_correct >= 10",
-      "achieved_by": [小贝克、小陈、芒U、蜜糖、开心牛、私猴]
+      "achieved_by": []
     },
     {
       "id": "season_starter",
