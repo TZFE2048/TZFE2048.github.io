@@ -1,0 +1,56 @@
+<!-- achievements.html -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>成就一览 - 2026 每日一题</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <nav>
+    <a href="/schedule.html">赛程介绍</a>
+    <a href="/rankings.html">赛季排行</a>
+    <a href="/ranks.html">段位介绍</a>
+    <a href="/achievements.html">成就一览</a>
+    <a href="/difficulty.html">难度机制</a>
+    <a href="/hall-of-fame.html">赛季名人堂</a>
+    <a href="/daily-log.html">每日作答记录</a>
+  </nav>
+
+  <div class="container">
+    <h2>🏅 成就一览</h2>
+    <div id="achievement-list">加载中...</div>
+
+    <script>
+      fetch('/data/achievements.json')
+        .then(response => response.json())
+        .then(data => {
+          let html = '';
+          data.visible.forEach(ach => {
+            html += `
+              <div style="margin: 10px 0; padding: 10px; border-left: 4px solid #4CAF50;">
+                <strong>${ach.icon} ${ach.name}</strong><br>
+                ${ach.description}
+                ${ach.achieved_by.length > 0 ? `<br><small>🏆 ${ach.achieved_by.join(', ')}</small>` : ''}
+              </div>
+            `;
+          });
+          data.hidden.forEach(ach => {
+            html += `
+              <div class="hidden-achievement" style="margin: 10px 0; padding: 10px; opacity: 0.6; font-style: italic;">
+                ❓ ???<br>
+                （达成后揭晓）
+              </div>
+            `;
+          });
+          document.getElementById('achievement-list').innerHTML = html;
+        })
+        .catch(err => {
+          console.error("加载失败:", err);
+          document.getElementById('achievement-list').innerHTML = '成就数据加载失败';
+        });
+    </script>
+  </div>
+</body>
+</html>
