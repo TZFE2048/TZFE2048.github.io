@@ -6,7 +6,7 @@
       "description": "累计答对 10 题",
       "icon": "🎯",
       "condition": "total_correct >= 10",
-      "achieved_by": ["小陈"]
+      "achieved_by": ["小陈", "小贝克"]
     },
     {
       "id": "season_starter",
