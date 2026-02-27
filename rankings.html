@@ -34,56 +34,55 @@
         <p>加载中...</p>
       </div>
 
-      <script>
-        // 自动加载 S1 排行榜（需先创建 data/s1-rankings.csv）
-        fetch('data/s1-rankings.csv')
-          .then(response => response.ok ? response.text() : null)
-          .then(csv => {
-            if (!csv) return;
-            const lines = csv.trim().split('\n');
-            let html = '<table><thead><tr>';
-            const headers = lines[0].split(',');
-            headers.forEach(h => html += `<th>${h}</th>`);
-            html += '</tr></thead><tbody>';
+  <script>
+  // ✅ 自动加载 S1 排行榜
+  fetch('data/s1-rankings.csv')
+    .then(response => response.ok ? response.text() : null)
+    .then(csv => {
+      if (!csv) return;
+      const lines = csv.trim().split('\n');
+      let html = '<table><thead><tr>';
+      const headers = lines[0].split(',');
+      headers.forEach(h => html += `<th>${h}</th>`);
+      html += '</tr></thead><tbody>';
 
-            for (let i = 1; i < lines.length; i++) {
-              const row = lines[i].split(',');
-              html += '<tr>';
-              row.forEach(cell => html += `<td>${cell}</td>`);
-              html += '</tr>';
-            }
-            html += '</tbody></table>';
-            document.getElementById('s1-ranking').innerHTML = html;
-          })
-          .catch(() => {
-            document.getElementById('s1-ranking').innerHTML = '<p>暂无数据</p>';
-          });
+      for (let i = 1; i < lines.length; i++) {
+        const row = lines[i].split(',');
+        html += '<tr>';
+        row.forEach(cell => html += `<td>${cell}</td>`);
+        html += '</tr>';
+      }
+      html += '</tbody></table>';
+      document.getElementById('s1-ranking').innerHTML = html;
+    })
+    .catch(() => {
+      document.getElementById('s1-ranking').innerHTML = '<p>暂无数据</p>';
+    });
 
-        // S2 开启判断（2026年2月27日后显示排行榜）
-          fetch('data/s2-rankings.csv')
-          .then(response => response.ok ? response.text() : null)
-          .then(csv => {
-          if (!csv) return;
-          const lines = csv.trim().split('\n');
-          let html = '<table><thead><tr>';
-          const headers = lines[0].split(',');
-          headers.forEach(h => html += `<th>${h}</th>`);
-          html += '</tr></thead><tbody>';
+  // ✅ 新增：自动加载 S2 排行榜
+  fetch('data/s2-rankings.csv')
+    .then(response => response.ok ? response.text() : null)
+    .then(csv => {
+      if (!csv) return;
+      const lines = csv.trim().split('\n');
+      let html = '<table><thead><tr>';
+      const headers = lines[0].split(',');
+      headers.forEach(h => html += `<th>${h}</th>`);
+      html += '</tr></thead><tbody>';
 
-          for (let i = 1; i < lines.length; i++) {
-            const row = lines[i].split(',');
-            html += '<tr>';
-            row.forEach(cell => html += `<td>${cell}</td>`);
-            html += '</tr>';
-          }
-          html += '</tbody></table>';
-          document.getElementById('s2-ranking').innerHTML = html;
-        })
-        .catch(() => {
-          document.getElementById('s2-ranking').innerHTML = '<p>暂无数据</p>';
-        });
-        }
-      </script>
+      for (let i = 1; i < lines.length; i++) {
+        const row = lines[i].split(',');
+        html += '<tr>';
+        row.forEach(cell => html += `<td>${cell}</td>`);
+        html += '</tr>';
+      }
+      html += '</tbody></table>';
+      document.getElementById('s2-ranking').innerHTML = html;
+    })
+    .catch(() => {
+      document.getElementById('s2-ranking').innerHTML = '<p>暂无数据</p>';
+    });
+</script>
   </div>
 </body>
 </html>
