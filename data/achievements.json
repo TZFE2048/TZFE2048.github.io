@@ -6,7 +6,7 @@
       "description": "累计答对 10 题",
       "icon": "🎯",
       "condition": "total_correct >= 10",
-      "achieved_by": ["小陈", "小贝克"]
+      "achieved_by": ["小陈"]
     },
     {
       "id": "season_starter",
@@ -62,7 +62,7 @@
       "description": "累计答对12道3级及以上题目",
       "icon": "🔥",
       "condition": "answered 12+ questions of level 3+",
-      "achieved_by": []
+      "achieved_by": ["蜜糖"]
     },
     {
       "id": "festival_full",
